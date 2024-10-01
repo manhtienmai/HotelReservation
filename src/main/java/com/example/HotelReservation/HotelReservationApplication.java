@@ -1,13 +1,13 @@
-package com.example.AuctionCloud;
+package com.example.HotelReservation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuctionCloudApplication {
+public class HotelReservationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuctionCloudApplication.class, args);
+		SpringApplication.run(HotelReservationApplication.class, args);
 	}
 
 }
