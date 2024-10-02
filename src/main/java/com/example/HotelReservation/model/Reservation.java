@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,6 +33,9 @@ public class Reservation {
 
     @Column(name = "special_requests", columnDefinition = "TEXT")
     private String specialRequests;
+
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationRoom> reservationRooms;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
