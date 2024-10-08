@@ -1,18 +1,14 @@
+# Common configurations
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
-  datasource:
-    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/hotel_reservation}
-    username: ${DATABASE_USERNAME:root}
-    password: ${DATABASE_PASSWORD:vodanhtu1}
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: ${HIBERNATE_DDL_AUTO:update}
     show-sql: ${SHOW_SQL:true}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
   servlet:
     multipart:
@@ -30,24 +26,37 @@ logging:
     org.springframework.web: ${SPRING_WEB_LOG_LEVEL:INFO}
     org.hibernate: ${HIBERNATE_LOG_LEVEL:INFO}
 
-# Local profile specific configurations
+# Local profile configurations
 ---
 spring:
   config:
     activate:
       on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/hotel_reservation
+    username: root
+    password: vodanhtu1
+    driver-class-name: com.mysql.cj.jdbc.Driver
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
 
-# EC2 profile specific configurations
+# EC2/RDS profile configurations
 ---
 spring:
   config:
     activate:
       on-profile: ec2
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
   devtools:
     restart:
       enabled: false
@@ -67,3 +76,40 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+
+# Production profile configurations
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 50
+      connection-timeout: 30000
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: WARN
+    org.hibernate: ERROR
+
+server:
+  tomcat:
+    max-threads: 400
+    min-spare-threads: 20
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
