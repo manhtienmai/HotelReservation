@@ -64,7 +64,7 @@ public class ReservationService {
             throw new BadRequestException("Cannot update a reservation that is not in PENDING or CONFIRMED state");
         }
 
-        List<RoomAvailability> newRoomAvailabilities = findAvailableRooms(requestDTO.getRoomTypeId(), requestDTO.getCheckInDate(), requestDTO.getCheckOutDate());
+        List<RoomAvailability> newRoomAvailabilities = findAvailableRooms(requestDTO.getHotelId(), requestDTO.getRoomTypeId(), requestDTO.getCheckInDate(), requestDTO.getCheckOutDate());
 
         if (newRoomAvailabilities.isEmpty()) {
             throw new BadRequestException("No available rooms for the specified criteria");

@@ -11,7 +11,7 @@ public class ReservationResponseDTO {
     private Long id;
     private Long guestId;
     private ReservationStatus status;
-    private BigDecimal totalPrices;
+    private BigDecimal totalPrice;
     private Integer adults;
     private Integer children;
     private String specialRequests;

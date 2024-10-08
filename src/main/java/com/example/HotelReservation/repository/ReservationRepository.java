@@ -17,5 +17,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
     List<Reservation> findByStatus(ReservationStatus status);
 
     @Query("SELECT DISTINCT r FROM Reservation r JOIN r.reservationRooms rr WHERE rr.roomAvailability.hotelRoom.hotel.id = :hotelId AND rr.checkInDate >= :startDate AND rr.checkOutDate <= :endDate")
-    List<Reservation> findByHotelAndDateRange(@Param("hotelId") Long hotelId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<Reservation> findByHotelAndDateRange(
+            @Param("hotelId") Long hotelId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }
